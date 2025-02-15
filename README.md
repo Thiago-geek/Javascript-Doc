@@ -521,3 +521,91 @@ En este curso, adoptamos el siguiente principio sobre cuándo utilizar lety cuá
 Úselo constcuando pueda y letcuando tenga que hacerlo.
 
 Esto significa que si puedes inicializar una variable cuando la declaras y no necesitas reasignarla más tarde, conviértela en una constante.
+
+# [**¿Qué es la Asincronía?**](https://lenguajejs.com/asincronia/introduccion/que-es/)
+
+La **asincronía** es uno de los conceptos principales que existe en el mundo de Javascript. Cuando comenzamos, es muy común trabajar con código **síncrono** (***secuencial***), sin embargo, llegado a un punto necesitaremos trabajar con código **asíncrono**, el cuál puede ser muy frustrante si no lo entendemos bien.
+
+En programación, cuando hablamos de **sincronía**, nos referimos a una forma de ejecutar el código. Cuando comenzamos a programar, normalmente realizamos tareas de forma **síncrona**, llevando a cabo tareas **secuenciales** que se ejecutan una detrás de otra, de modo que el orden o flujo del programa es sencillo y fácil de observar en el código:
+
+```css
+primera_funcion();    // Tarea 1: Se ejecuta primero
+segunda_funcion();    // Tarea 2: Se ejecuta cuando termina primera_funcion()
+tercera_funcion();    // Tarea 3: Se ejecuta cuando termina segunda_funcion()
+```
+
+Sin embargo, en el mundo de la programación, tarde o temprano necesitaremos realizar operaciones **asíncronas**, especialmente en ciertos lenguajes como Javascript, donde tenemos que realizar tareas **que tienen que esperar a que ocurra un determinado suceso**.
+
+Este suceso tiene varias características:
+
+- 1️⃣ Generalmente, no depende de nosotros
+- 2️⃣ No solemos saber cuando va a ocurrir
+- 3️⃣ A veces, ni siquiera sabemos si va a ocurrir
+
+Nuestro código tiene que saber gestionar esas características, y reaccionar sólo cuando dicho suceso ocurra.
+
+# [**Lenguaje no bloqueante**](https://lenguajejs.com/asincronia/introduccion/que-es/#lenguaje-no-bloqueante)
+
+Otro concepto importante es saber cuando el código es **bloqueante** o no. Observa el fragmento de código anterior. Hasta que la **`segunda_funcion()`** termine, la **`tercera_funcion()`** no comenzará. En ese caso, **`segunda_funcion()`** **está bloqueando** **`tercera_funcion()`**.
+
+Además, esto es especialmente importante en casos donde, por ejemplo, **`segunda_funcion()`** necesite información de un sistema ajeno al nuestro (***por ejemplo, que el usuario escriba información por teclado***). Hasta que el usuario no realice esa acción, al ser bloqueante, no se ejecutará el código que hay a continuación.
+
+<aside>
+💡
+
+Esta es la forma de trabajar de muchos lenguajes, sin embargo, sería muy interesante que nuestro código «se quede a la espera» mientras ejecutamos y realizamos otras tareas.
+
+</aside>
+
+Por si acaso no haya quedado claro, imaginemos que la **`segunda_funcion()`** del ejemplo anterior realiza una tarea que depende de otros, como por ejemplo un click de ratón del usuario. Si hablasemos de un **código bloqueante**, hasta que el usuario no haga click, no se seguiría ejecutando el resto del código, sino que se quedaría bloqueado esperando a que se terminase esa segunda tarea:
+
+![image.png](attachment:79f95b21-08a9-4e5c-9b80-125187baaaff:image.png)
+
+Cuando hablamos de Javascript, habitualmente nos referimos a él como un lenguaje que puede ser **no bloqueante**. Con esto queremos decir que podemos conseguir que las tareas que realizamos no se quedan bloqueadas. Javascript puede mover una tarea que depende de otra a una lista de **tareas en espera (pendientes)** a las que irá «prestándole atención» a medida que lo necesite, pudiendo continuar con el resto de tareas a continuación de nuestro código.
+
+# [**¿Qué es la asincronía?**](https://lenguajejs.com/asincronia/introduccion/que-es/#qu%C3%A9-es-la-asincron%C3%ADa)
+
+La **asincronía** es como se le llama a esta forma de trabajar donde tenemos que ir programando pensando en tareas futuras que aún no han ocurrido, pero que en algún momento ocurrirán.
+
+Además, ten en cuenta que esta situación aún se puede complicar:
+
+- 1️⃣ Pueden existir **múltiples** tareas asíncronas
+- 2️⃣ Las tareas pueden terminar realizandose correctamente
+- 3️⃣ Las tareas pueden terminar fallando y no realizarse
+- 4️⃣ Las tareas pueden quedarse pendientes de forma infinita y nunca realizarse o fallar.
+- 5️⃣ Las tareas pueden depender a su vez de otras tareas.
+- 6️⃣ Las tareas pueden tardar poco o tardar mucho.
+
+Así que necesitamos mecanismos para controlar estas tareas, que es lo que veremos en los siguientes artículos. Pero antes, vamos a ver algunos ejemplos de tareas que son asíncronas.
+
+# [**Ejemplos de tareas asíncronas**](https://lenguajejs.com/asincronia/introduccion/que-es/#ejemplos-de-tareas-as%C3%ADncronas)
+
+En Javascript no todas las tareas son asíncronas, pero hay ciertas tareas que si lo son, y probablemente se entiendan mejor con ejemplos reales:
+
+- Descargarse un archivo **`.json`** de otra web.
+- Reproducir un **`.mp3`** desde otra web.
+- Un botón o campo de datos donde el usuario debe activar un mecanismo.
+- Una orden al sintetizador de voz del navegador para que lea un mensaje.
+- Una comunicación con un sensor del smartphone.
+
+Todos estos ejemplos se realizan mediante **asincronia**, ya que deben realizar una tarea que podría tardar y bloquear la ejecución del programa (***si tarda mucho o no ocurre***):
+
+- La descarga de un fichero muy grande o desde un servidor lento
+- Una conexión a internet muy lenta o con poca cobertura
+- Un usuario que está ausente y no ha proporcionado la información
+- Un sensor de smartphone que es lento al activarse o transmitir datos
+
+Creo que con estos ejemplos, tenemos claro que mediante **código síncrono** es complicado gestionar estas situaciones. Por lo tanto, necesitamos una forma de gestionarlas.
+
+# [**¿Cómo gestionar la asincronía?**](https://lenguajejs.com/asincronia/introduccion/que-es/#c%C3%B3mo-gestionar-la-asincron%C3%ADa)
+
+Debemos aprender mecanismos para dejar claro en nuestro código Javascript, que ciertas tareas tienen que procesarse de forma asíncrona para quedarse a la espera, y otras deben ejecutarse de forma síncrona.
+
+En Javascript existen varias formas de gestionar la **asincronía**. Observa en la siguiente tabla los principales mecanismos:
+
+| **Mecanismo** | **Descripción** | **Más info** |
+| --- | --- | --- |
+| Mediante **`callbacks`** | Probablemente, la forma más clásica de gestionar la asincronía. | [Ver Callbacks](https://lenguajejs.com/javascript/asincronia/callbacks/) |
+| Mediante **`promesas`** | Mecanismo moderno para gestionar la asincronía de forma no bloqueante. | [Ver Promesas](https://lenguajejs.com/javascript/asincronia/promesas/) |
+| Mediante **`async`**/**`await`** | Una forma simplificada de manejar promesas, pero bloqueante. | [Ver Async/Await](https://lenguajejs.com/javascript/asincronia/async-await/) |
+| Mediante **`top-level await`** | Una variación de la anterior, donde no es necesario usar **`async`** en determinados contextos. |  |
